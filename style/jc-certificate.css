@@ -1,0 +1,198 @@
+@page {
+    size: A4 landscape;
+    margin: 10mm;
+}
+
+:root{
+    --paper-bg: #f8fafc;
+    --accent: #000000;
+    --border: #d1d5db;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper-bg);
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-print-color-adjust: exact;
+}
+
+.certificate-paper{
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.certificate{
+    width: 100%;
+    max-width: 1100px;
+    border: 10px solid white;
+    position: relative;
+    background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
+    border-radius: 6px;
+    box-shadow: 0 4px 14px rgba(16,24,40,0.08);
+    overflow: hidden;
+    border-image: linear-gradient(90deg, rgba(13,110,253,0.12), rgba(13,110,253,0.02)) 1;
+}
+.certificate {
+    width: 100%;
+    max-width: 1100px;
+    position: relative;
+    padding: 60px;
+    background: linear-gradient(180deg, #ffffff 0%, #fdfdff 100%);
+    border-radius: 6px;
+    box-shadow: 0 4px 14px rgba(16,24,40,0.08);
+    overflow: hidden;
+}
+
+.certificate::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("slaf-logo.png") center/45% no-repeat;
+    opacity: 0.12;         
+    pointer-events: none;   
+    z-index: 0;
+}
+
+.certificate::before{
+    content: "";
+    position: absolute;
+    inset: 20px;
+    border: 2px dashed rgba(13,110,253,0.15);
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.certificate > * {
+    position: relative;
+    z-index: 2;
+}
+.issuer{
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: .2rem;
+}
+
+.title{
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: .2rem;
+}
+
+.subtitle{
+    margin-top: 1rem;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.recipient{
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.description{
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    color: #374151;
+    margin-top: 0;
+}
+
+.issue-details {
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 500px;
+    font-size: 0.95rem;
+    color: #374151;
+}
+.issue-details .label {
+    display: inline-block;
+    width: 130px;
+    text-align: left;
+    padding-right: 5px;
+    font-weight: 600;
+}
+.issue-details .value {
+    display: inline-block;
+    text-align: left;
+}
+.issue-details .place-issue, .issue-details .date-issue {
+    display: block;
+    margin-top: 5px;
+}
+
+.logo-left, .logo-right{
+    height: 100px;
+    width: auto;
+    object-fit: contain;
+}
+
+.signature-left, .signature-right{
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
+.red-seal, .qr-code{
+    height: 100px;
+    width: auto;
+    object-fit: contain;
+}
+
+.signatures .sig-line{
+    height: 2px;
+    background: linear-gradient(90deg, rgba(0,0,0,0.2), rgba(0,0,0,0.05));
+    margin-top: 36px;
+}
+
+.sig-title{
+    margin-top: .4rem;
+    color: #141414;
+    font-size: .85rem;
+    text-align: left;
+}
+
+.cert-id{
+    font-family: monospace;
+    color: #6b7280;
+}
+
+@media (max-width: 768px){
+    .certificate{
+        padding: 2rem;
+    }
+    .recipient{
+        font-size: 1.8rem;
+    }
+    .description{
+        max-width: 100%;
+    }
+}
+
+@media print{
+    html, body{
+        height: 100%;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+    }
+    .certificate{
+        box-shadow: none;
+        border-radius: 0;
+    }
+    .certificate::before{
+        border: none;
+    }
+}

@@ -1,0 +1,40 @@
+[25-Nov-2025 10:21:58 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[25-Nov-2025 10:26:40 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[26-Nov-2025 05:22:07 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[26-Nov-2025 05:54:41 Europe/Berlin] PHP Warning:  file_get_contents(): SSL: Handshake timed out in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 48
+[26-Nov-2025 05:54:41 Europe/Berlin] PHP Warning:  file_get_contents(): Failed to enable crypto in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 48
+[26-Nov-2025 05:54:41 Europe/Berlin] PHP Warning:  file_get_contents(https://www.google.com/recaptcha/api/siteverify?secret=6LdnWsApAAAAAPQD_aMSOcpEHItqa1RSHvrwAxbY&amp;response=HFNm44JRcefQt5EXsNGEQcGQ1MXAhsMg9LSjNvUghAYDpgcDErb0p4bnFhJzQYdzJdYB0LUh1LH1sKABNIEQxaNAFjFlUAFGAwN3QsdCBtFXJwc2NoE2k3FXQWKEMWEApLNlkSKmkbC0McejopCEEzN39jITAjdDlgPmsfJRBuDFIqFEc2E2ozFUw8MWc0KQZMTlMTBEtAfDhjZjtNbSxvHy16PjRRYENddR94RwpLNB5LQAZLdRws): Failed to open stream: operation failed in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 48
+[26-Nov-2025 05:54:42 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[26-Nov-2025 06:09:48 Europe/Berlin] PHP Warning:  file_get_contents(https://www.google.com/recaptcha/api/siteverify?secret=6LdnWsApAAAAAPQD_aMSOcpEHItqa1RSHvrwAxbY&amp;response=): Failed to open stream: HTTP request failed! in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 48
+[26-Nov-2025 06:09:48 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[26-Nov-2025 07:01:37 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[26-Nov-2025 07:05:51 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[26-Nov-2025 07:07:35 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[26-Nov-2025 07:21:22 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[26-Nov-2025 07:23:04 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[26-Nov-2025 07:26:21 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[26-Nov-2025 07:26:36 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[26-Nov-2025 07:30:48 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[26-Nov-2025 07:31:19 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[26-Nov-2025 08:30:36 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[26-Nov-2025 08:54:49 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[27-Nov-2025 04:45:44 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[28-Nov-2025 11:28:12 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[10-Dec-2025 11:38:24 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[10-Dec-2025 11:39:06 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[17-Dec-2025 06:09:02 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[17-Dec-2025 11:33:05 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'institute' in 'field list' in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php:71
+Stack trace:
+#0 F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php(71): mysqli_prepare(Object(mysqli), 'SELECT id, user...')
+#1 {main}
+  thrown in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 71
+[17-Dec-2025 11:33:48 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'institute' in 'field list' in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php:71
+Stack trace:
+#0 F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php(71): mysqli_prepare(Object(mysqli), 'SELECT id, user...')
+#1 {main}
+  thrown in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 71
+[17-Dec-2025 11:34:11 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[17-Dec-2025 11:35:08 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 90
+[17-Dec-2025 11:55:09 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 91
+[17-Dec-2025 11:59:28 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 91
+[17-Dec-2025 12:04:39 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in F:\xampp versions\8.2\htdocs\verificationlog\qr_admin\index.php on line 91

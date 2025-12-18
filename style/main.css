@@ -1,0 +1,151 @@
+@font-face {
+    font-family: 'milesons';
+    src: url('fonts/milesons.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'tt';
+    src: url('fonts/tt.ttf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'tt black';
+    src: url('fonts/tt black.ttf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@media (max-width: 768px) {
+    .header {
+      margin-top: 5rem;
+    }
+  }
+  
+.subtopic{
+    font-weight: 600;
+}
+
+h4,h5{
+    margin-bottom: 0.1rem !important;
+}
+
+.milesons{
+    font-family:  'milesons', sans-serif !important;
+}
+
+.tt{
+    font-family:  'tt', sans-serif !important;
+}
+
+.tt-black{
+    font-family:  'tt black', sans-serif !important;
+}
+
+.table-head{
+    background-color: #efe4cd;
+}
+
+.table thead th{
+    border:1px solid #000000;
+}
+/* Custom table styles */
+.custom-table,
+.table-bordered {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td,
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid black;
+    padding: 4px; /* Adjust padding as needed */
+}
+
+.certificate {
+    border: 2px solid #cc9900;
+    padding: 20px;
+    /* border-radius: 10px; */
+    position: relative;
+    background-color: #f3f3f36b;
+    margin-bottom: 1rem;
+}
+
+.logo {
+    width: 100px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #cc9900;
+}
+
+.details {
+    margin-top: 20px;
+}
+
+.corner-info {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    text-align: left;
+}
+
+.student-image {
+    width: 150px;
+    height: 150px;
+    /* border-radius: 50%; */
+    display: block;
+    margin: 20px auto;
+    border: 2px solid #cc9900;
+}
+
+.personal-info,
+.experience,
+.knowledge,
+.skills,
+.issuing-authority {
+    margin-top: 20px;
+}
+
+.personal-info table,
+.experience table,
+.knowledge table,
+.skills table,
+.issuing-authority table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.personal-info th,
+.personal-info td,
+.experience th,
+.experience td,
+.knowledge th,
+.knowledge td,
+.skills th,
+.skills td,
+.issuing-authority th,
+.issuing-authority td {
+    padding: 4px;
+    text-align: left;
+}
+body,h5{
+
+font-size: 15px !important;
+
+}
+h4{
+
+font-size: 18px !important;
+
+}
