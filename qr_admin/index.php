@@ -44,7 +44,7 @@ $recaptchaToken = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $recaptchaToken = $_POST['recaptcha-token'];
     // Verify the reCAPTCHA response
-    $secret = '6LdnWsApAAAAAPQD_aMSOcpEHItqa1RSHvrwAxbY';
+    $secret = '';
     $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$recaptchaToken");
     $responseKeys = json_decode($response, true);
 
@@ -212,13 +212,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
 
-    <script src="https://www.google.com/recaptcha/api.js?render=6LdnWsApAAAAAFFXCfGPDJifWWAodiug6kgej-7d"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render="></script>
     <script>
         function onSubmit(event) {
-            event.preventDefault(); // Prevents default form submission
+            event.preventDefault();
 
             grecaptcha.ready(function () {
-                grecaptcha.execute('6LdnWsApAAAAAFFXCfGPDJifWWAodiug6kgej-7d', {
+                grecaptcha.execute('', {
                     action: 'submit'
                 }).then(function (token) {
                     // Add the token to the form
