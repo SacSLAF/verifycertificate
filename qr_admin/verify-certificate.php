@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 include "../config.php";
 
 // Check if the user is logged in and is admin
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION['directorate'] != 12) {
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("location: index.php");
     exit;
 }
@@ -53,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         // If user_id is not in session, try to get it from the users table using username or email
         $admin_username = $_SESSION['username'] ?? 'admin'; // Adjust based on your session variables
-        $user_stmt = $conn->prepare("SELECT id FROM users WHERE username = ? OR email = ? LIMIT 1");
-        $user_stmt->bind_param("ss", $admin_username, $admin_username);
+        $user_stmt = $conn->prepare("SELECT id FROM users WHERE username = ?  LIMIT 1");
+        $user_stmt->bind_param("s", $admin_username);
         $user_stmt->execute();
         $user_result = $user_stmt->get_result();
         $user_data = $user_result->fetch_assoc();
@@ -66,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->begin_transaction();
 
     try {
+        // var_dump($verification_status);exit;
         // Update certificate verification status
         $update_stmt = $conn->prepare("UPDATE certificates 
                                      SET verification_status = ?, 
@@ -107,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $conn->commit();
 
         // Redirect with success message
-        header("location: all-certificates-v1.php?msg=verified");
+        header("location: all-certificates.php?msg=verified");
         exit;
     } catch (Exception $e) {
         // Rollback transaction on error
@@ -148,6 +149,11 @@ $verification_logs = $log_stmt->get_result();
 <!DOCTYPE html>
 <html lang="en">
 <?php include "template/head.php"; ?>
+<style>
+    .certificate-detail {
+        color:#767676;
+    }
+</style>
 
 <body>
     <div class="wrapper">
@@ -198,37 +204,37 @@ $verification_logs = $log_stmt->get_result();
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label><strong>Certificate ID:</strong></label>
-                                                                <p><?php echo htmlspecialchars($certificate['certificate_id'] ?? ''); ?></p>
+                                                                <p class="certificate-detail"><?php echo htmlspecialchars($certificate['certificate_id'] ?? ''); ?></p>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label><strong>Name:</strong></label>
-                                                                <p><?php echo htmlspecialchars($certificate['name'] ?? ''); ?></p>
+                                                                <p class="certificate-detail"><?php echo htmlspecialchars($certificate['name'] ?? ''); ?></p>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label><strong>Service No:</strong></label>
-                                                                <p><?php echo htmlspecialchars($certificate['service_no'] ?? ''); ?></p>
+                                                                <p class="certificate-detail"><?php echo htmlspecialchars($certificate['service_no'] ?? ''); ?></p>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label><strong>Rank:</strong></label>
-                                                                <p><?php echo htmlspecialchars($certificate['rank'] ?? ''); ?></p>
+                                                                <p class="certificate-detail"><?php echo htmlspecialchars($certificate['rank'] ?? ''); ?></p>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label><strong>Directorate:</strong></label>
-                                                                <p><?php echo htmlspecialchars($certificate['directorate_name'] ?? ''); ?></p>
+                                                                <p class="certificate-detail"><?php echo htmlspecialchars($certificate['directorate_name'] ?? ''); ?></p>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label><strong>Date of Issue:</strong></label>
-                                                                <p><?php echo htmlspecialchars($certificate['date_of_issue'] ?? ''); ?></p>
+                                                                <p class="certificate-detail"><?php echo htmlspecialchars($certificate['date_of_issue'] ?? ''); ?></p>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label><strong>NIC No:</strong></label>
-                                                                <p><?php echo htmlspecialchars($certificate['nic_no'] ?? ''); ?></p>
+                                                                <p class="certificate-detail"><?php echo htmlspecialchars($certificate['nic_no'] ?? ''); ?></p>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label><strong>Passport No:</strong></label>
-                                                                <p><?php echo htmlspecialchars($certificate['passport_no'] ?? ''); ?></p>
+                                                                <p class="certificate-detail"><?php echo htmlspecialchars($certificate['passport_no'] ?? ''); ?></p>
                                                             </div>
                                                             <?php if (!empty($certificate['image'])): ?>
                                                                 <div class="form-group">
@@ -245,13 +251,13 @@ $verification_logs = $log_stmt->get_result();
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label><strong>Experience:</strong></label>
-                                                                <p><?php echo nl2br(htmlspecialchars($certificate['experience'] ?? '')); ?></p>
+                                                                <p class="certificate-detail"><?php echo nl2br(htmlspecialchars($certificate['experience'] ?? '')); ?></p>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label><strong>Qualifications:</strong></label>
-                                                                <p><?php echo nl2br(htmlspecialchars($certificate['qualifications'] ?? '')); ?></p>
+                                                                <p class="certificate-detail"><?php echo nl2br(htmlspecialchars($certificate['qualifications'] ?? '')); ?></p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -263,25 +269,25 @@ $verification_logs = $log_stmt->get_result();
                                                             <div class="row">
                                                                 <div class="col-md-4">
                                                                     <label><strong>Name:</strong></label>
-                                                                    <p><?php echo htmlspecialchars($certificate['issuing_authority_name'] ?? ''); ?></p>
+                                                                    <p class="certificate-detail"><?php echo htmlspecialchars($certificate['issuing_authority_name'] ?? ''); ?></p>
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <label><strong>Rank:</strong></label>
-                                                                    <p><?php echo htmlspecialchars($certificate['issuing_authority_rank'] ?? ''); ?></p>
+                                                                    <p class="certificate-detail"><?php echo htmlspecialchars($certificate['issuing_authority_rank'] ?? ''); ?></p>
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <label><strong>Appointment:</strong></label>
-                                                                    <p><?php echo htmlspecialchars($certificate['issuing_authority_appointment'] ?? ''); ?></p>
+                                                                    <p class="certificate-detail"><?php echo htmlspecialchars($certificate['issuing_authority_appointment'] ?? ''); ?></p>
                                                                 </div>
                                                             </div>
                                                             <div class="row mt-2">
                                                                 <div class="col-md-6">
                                                                     <label><strong>Email:</strong></label>
-                                                                    <p><?php echo htmlspecialchars($certificate['issuing_authority_email'] ?? ''); ?></p>
+                                                                    <p class="certificate-detail"><?php echo htmlspecialchars($certificate['issuing_authority_email'] ?? ''); ?></p>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label><strong>Contact:</strong></label>
-                                                                    <p><?php echo htmlspecialchars($certificate['issuing_authority_contact'] ?? ''); ?></p>
+                                                                    <p class="certificate-detail"><?php echo htmlspecialchars($certificate['issuing_authority_contact'] ?? ''); ?></p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -294,15 +300,15 @@ $verification_logs = $log_stmt->get_result();
                                                             <div class="row">
                                                                 <div class="col-md-4">
                                                                     <label><strong>Verified By:</strong></label>
-                                                                    <p><?php echo htmlspecialchars($certificate['verified_by'] ?? ''); ?></p>
+                                                                    <p class="certificate-detail"><?php echo htmlspecialchars($certificate['verified_by'] ?? ''); ?></p>
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <label><strong>Verified Date:</strong></label>
-                                                                    <p><?php echo htmlspecialchars($certificate['verified_date'] ?? ''); ?></p>
+                                                                    <p class="certificate-detail"><?php echo htmlspecialchars($certificate['verified_date'] ?? ''); ?></p>
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <label><strong>Admin Verifier:</strong></label>
-                                                                    <p><?php echo htmlspecialchars($certificate['admin_verifier_name'] ?? 'Not verified yet'); ?></p>
+                                                                    <p class="certificate-detail"><?php echo htmlspecialchars($certificate['admin_verifier_name'] ?? 'Not verified yet'); ?></p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -322,6 +328,7 @@ $verification_logs = $log_stmt->get_result();
                                                         <div class="form-group">
                                                             <label for="verification_status">Verification Status *</label>
                                                             <select class="form-control" id="verification_status" name="verification_status" required>
+                                                                <option value="" selected disabled>Select a status</option>
                                                                 <option value="pending" <?php echo $certificate['verification_status'] == 'pending' ? 'selected' : ''; ?>>Pending</option>
                                                                 <option value="approved" <?php echo $certificate['verification_status'] == 'approved' ? 'selected' : ''; ?>>Approve</option>
                                                                 <option value="rejected" <?php echo $certificate['verification_status'] == 'rejected' ? 'selected' : ''; ?>>Reject</option>
@@ -351,10 +358,10 @@ $verification_logs = $log_stmt->get_result();
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <button type="submit" class="btn btn-success btn-block">
+                                                            <button type="submit" class="btn btn-sm btn-success btn-block">
                                                                 <i class="fas fa-check-circle"></i> Update Verification
                                                             </button>
-                                                            <a href="all-certificates.php" class="btn btn-secondary btn-block">Cancel</a>
+                                                            <a href="all-certificates.php" class="btn btn-sm btn-secondary btn-block">Cancel</a>
                                                         </div>
                                                     </form>
                                                 </div>

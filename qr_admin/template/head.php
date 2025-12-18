@@ -26,6 +26,9 @@ switch ($msg) {
   case '8':
     $message = 'User was deleted successfully.';
     break;
+  case 'verified':
+    $message = 'Certificate verified successfully.';
+    break;
   default:
     $message = '';
     break;

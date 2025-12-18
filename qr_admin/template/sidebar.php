@@ -76,7 +76,7 @@
                   <span class="sub-item">User</span>
                 </a>
               </li>
-              <?php if ($_SESSION["role"] == 'admin') { ?>
+              <?php if ($_SESSION["role"] == 'super_admin') { ?>
                 <li>
                   <a href="create-users.php">
                     <span class="sub-item">Create users</span>

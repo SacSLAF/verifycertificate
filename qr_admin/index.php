@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Validate credentials
         if (empty($username_err) && empty($password_err)) {
             // Prepare a select statement
-            $sql = "SELECT id, username, training_institute, camp,directorate, password,role FROM users WHERE username = ?";
+            $sql = "SELECT id, username, training_institute, camp,directorate,password,role,type FROM users WHERE username = ?";
 
             if ($stmt = mysqli_prepare($conn, $sql)) {
                 // Bind variables to the prepared statement as parameters
@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Check if username exists, if yes then verify password
                     if (mysqli_stmt_num_rows($stmt) == 1) {
                         // Bind result variables
-                        mysqli_stmt_bind_result($stmt, $id, $username, $institute, $camp, $directorate,$hashed_password, $role);
+                        mysqli_stmt_bind_result($stmt, $id, $username, $institute, $camp, $directorate,$hashed_password, $role,$user_type);
 
                         if (mysqli_stmt_fetch($stmt)) {
                             if (password_verify($password, $hashed_password)) {
@@ -97,6 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 $_SESSION["camp"] = $camp;
                                 $_SESSION["role"] = $role;
                                 $_SESSION["directorate"] = $directorate;
+                                $_SESSION["user_type"] = $user_type;
                                 // Redirect user to welcome page
                                 header("location: dashboard.php");
                             } else {

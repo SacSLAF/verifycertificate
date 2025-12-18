@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || !isset($_SESSION['directorate'])) {
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("location: index.php");
     exit;
 }
@@ -40,6 +40,8 @@ if (!empty($id) && preg_match('/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0
         $verified_date = $user_data['verified_date'] ?? '';
         $certificate_uuid = $user_data['certificate_uuid'] ?? '';
         $certificate_directorate = $user_data['directorate_id'] ?? '';
+        $certificate_type = $user_data['type'] ?? '';
+        $institute_id = $user_data['institute_id'] ?? '';
     } else {
         // If no user data found, display a message
         $error_message = 'No user data found. Please contact support.<br><br><table border="1">
@@ -65,19 +67,41 @@ if (!empty($id) && preg_match('/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0
                 </table>';
 }
 
-// Fetch directorate name from database
-$directorate_name = "SRI LANKA AIR FORCE"; // Default fallback
-
-// Get directorate_id from certificate data - FIXED: Use $certificate_directorate instead of $row['directorate_id']
-if (isset($certificate_directorate) && !empty($certificate_directorate)) {
-    $stmt = $conn->prepare("SELECT directorate_name FROM directorates WHERE id = ?");
-    $stmt->bind_param("i", $certificate_directorate);
-    $stmt->execute();
-    $stmt->bind_result($db_directorate_name);
-    if ($stmt->fetch()) {
-        $directorate_name = "" . strtoupper($db_directorate_name) . " <br> SRI LANKA AIR FORCE";
+$organization_name = "SRI LANKA AIR FORCE";
+if ($certificate_type == '3') {
+    // Type 3: Get directorate name
+    if (isset($certificate_directorate) && !empty($certificate_directorate)) {
+        $stmt = $conn->prepare("SELECT name FROM directorates WHERE id = ?");
+        $stmt->bind_param("i", $certificate_directorate);
+        $stmt->execute();
+        $stmt->bind_result($db_org_name);
+        if ($stmt->fetch()) {
+            $organization_name = "" . strtoupper($db_org_name) . " <br> SRI LANKA AIR FORCE";
+        }
+        $stmt->close();
     }
-    $stmt->close();
+} else {
+    if (isset($institute_id) && !empty($institute_id)) {
+        $stmt = $conn->prepare("SELECT name FROM training_institutes WHERE id = ?");
+        $stmt->bind_param("i", $institute_id);
+        $stmt->execute();
+        $stmt->bind_result($db_org_name);
+        if ($stmt->fetch()) {
+            $organization_name = "" . strtoupper($db_org_name) . " <br> SRI LANKA AIR FORCE";
+        } else {
+            // Fallback to camp name
+            if (isset($camp_id) && !empty($camp_id)) {
+                $stmt = $conn->prepare("SELECT name FROM camps WHERE id = ?");
+                $stmt->bind_param("i", $camp_id);
+                $stmt->execute();
+                $stmt->bind_result($db_org_name);
+                if ($stmt->fetch()) {
+                    $organization_name = "" . strtoupper($db_org_name) . " <br> SRI LANKA AIR FORCE";
+                }
+            }
+        }
+        $stmt->close();
+    }
 }
 function getUserByCertificateId($id)
 {
@@ -144,7 +168,7 @@ function getUserByCertificateId($id)
                         <div class="header">
                             <img src="../img/logo.png" alt="Company Logo" class="logo">
                             <h4 class="mt-3 tt subtopic">CERTIFICATE VERIFICATION</h4>
-                            <h4 class="tt subtopic"><?php echo $directorate_name; ?></h4>
+                            <h4 class="tt subtopic"><?php echo $organization_name; ?></h4>
                         </div>
                         <img src="<?php echo $image_path; ?>" alt="Image" class="student-image">
                         <div class="details text-left mt-5">
