@@ -17,7 +17,7 @@ $role = $_SESSION['role'];
 $directorate_id = $_SESSION['directorate'];
 $camp = $_SESSION['camp'];
 $institute = $_SESSION['institute'];
-$is_admin = ($role == 'super_admin') ? true : false;
+$is_admin = ($role == 'admin' || $role == 'super_admin') ? true : false;
 $user_type = $_SESSION['user_type'];
 
 // Prepare the query based on the role
@@ -127,19 +127,15 @@ if ($role == 'super_admin') {
                                             <tbody>
                                                 <?php
                                                 if (($role == 'super_admin')) {
-                                                    $query = "SELECT `id`, `certificate_id`, `name`, `service_no`, `rank`,`type`,`date_of_issue`,`dt_approved`, `issuing_authority_name`,`certificate_uuid`,`directorate_id`, `verification_status`,is_active FROM certificates";
+                                                    $query = "SELECT `id`, `certificate_id`, `name`, `service_no`, `rank`,`type`,`date_of_issue`, `issuing_authority_name`,`certificate_uuid`,`directorate_id`, `verification_status`,is_active FROM certificates";
                                                     $stmt = mysqli_prepare($conn, $query);
-                                                } elseif ($role == 'dt_admin') {
-                                                    $query = "SELECT `id`, `certificate_id`, `name`, `service_no`, `rank`,`type`, `date_of_issue`,`dt_approved`,  `issuing_authority_name`,`certificate_uuid`,`directorate_id`, `verification_status`,is_active FROM certificates WHERE directorate_id = ?";
-                                                    $stmt = mysqli_prepare($conn, $query);
-                                                    mysqli_stmt_bind_param($stmt, "i", $directorate_id);
                                                 } else {
                                                     if ($user_type == '1' || $user_type == '2') {
-                                                        $query = "SELECT `id`, `certificate_id`, `name`, `service_no`, `rank`,`type`, `date_of_issue`,`dt_approved`,  `issuing_authority_name`,`certificate_uuid`,`directorate_id`, `verification_status`,is_active FROM certificates WHERE institute_id = ?";
+                                                        $query = "SELECT `id`, `certificate_id`, `name`, `service_no`, `rank`,`type`, `date_of_issue`, `issuing_authority_name`,`certificate_uuid`,`directorate_id`, `verification_status`,is_active FROM certificates WHERE institute_id = ?";
                                                         $stmt = mysqli_prepare($conn, $query);
                                                         mysqli_stmt_bind_param($stmt, "i", $institute);
                                                     } else {
-                                                        $query = "SELECT `id`, `certificate_id`, `name`, `service_no`, `rank`,`type`, `date_of_issue`,`dt_approved`,  `issuing_authority_name`,`certificate_uuid`,`directorate_id`, `verification_status`,is_active FROM certificates WHERE directorate_id = ?";
+                                                        $query = "SELECT `id`, `certificate_id`, `name`, `service_no`, `rank`,`type`, `date_of_issue`, `issuing_authority_name`,`certificate_uuid`,`directorate_id`, `verification_status`,is_active FROM certificates WHERE directorate_id = ?";
                                                         $stmt = mysqli_prepare($conn, $query);
                                                         mysqli_stmt_bind_param($stmt, "i", $directorate_id);
                                                     }
@@ -153,49 +149,23 @@ if ($role == 'super_admin') {
 
                                                 // Fetch and display the data
                                                 while ($row = mysqli_fetch_assoc($result)) {
-                                                    $cert_type = $row['type'] ?? 1;
                                                     echo "<tr>";
                                                     echo "<td>" . htmlspecialchars($row['certificate_id']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($row['service_no']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($row['rank']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($row['name']) . "</td>";
-
                                                     // Verification status with badge
                                                     $status_badge = '';
                                                     $is_active_badge = '';
-
-                                                    if ($cert_type == 1) {
-                                                        if ($row['dt_approved'] == 1) {
-                                                            // DT approved, show normal verification status
-                                                            switch ($row['verification_status']) {
-                                                                case 'approved':
-                                                                    $status_badge = '<span class="badge badge-success">DT Approved</span>';
-                                                                    break;
-                                                                case 'rejected':
-                                                                    $status_badge = '<span class="badge badge-danger">Rejected</span>';
-                                                                    break;
-                                                                default:
-                                                                    $status_badge = '<span class="badge badge-warning">Pending</span>';
-                                                            }
-                                                        } else {
-                                                            if ($row['verification_status'] == 'approved') {
-                                                                $status_badge = '<span class="badge badge-info">Awaiting DT</span>';
-                                                            } else {
-                                                                $status_badge = '<span class="badge badge-warning">Pending</span>';
-                                                            }
-                                                        }
-                                                    } else {
-                                                        // Type 2 & 3: Normal verification status
-                                                        switch ($row['verification_status']) {
-                                                            case 'approved':
-                                                                $status_badge = '<span class="badge badge-success">Approved</span>';
-                                                                break;
-                                                            case 'rejected':
-                                                                $status_badge = '<span class="badge badge-danger">Rejected</span>';
-                                                                break;
-                                                            default:
-                                                                $status_badge = '<span class="badge badge-warning">Pending</span>';
-                                                        }
+                                                    switch ($row['verification_status']) {
+                                                        case 'approved':
+                                                            $status_badge = '<span class="badge badge-success">Approved</span>';
+                                                            break;
+                                                        case 'rejected':
+                                                            $status_badge = '<span class="badge badge-danger">Rejected</span>';
+                                                            break;
+                                                        default:
+                                                            $status_badge = '<span class="badge badge-warning">Pending</span>';
                                                     }
 
                                                     // Active status badge
@@ -210,108 +180,50 @@ if ($role == 'super_admin') {
                                                     // Action buttons
                                                     echo '<td style="white-space: nowrap;">';
 
-                                                    // VIEW BUTTON LOGIC - Modified for type 1
-                                                    if ($cert_type == 1 && $row['dt_approved'] != 1) {
-                                                        if ($role == 'dt_admin' || $role == 'super_admin') {
-                                                            // DT Admin can view pending DT approval certificates
-                                                            echo '<a href="view-certificate-v2.php?id=' . htmlspecialchars($row['certificate_uuid']) . '" class="btn btn-secondary btn-sm" title="View">';
-                                                            echo '<i class="fas fa-eye"></i>';
-                                                            echo '</a> &nbsp;';
-                                                        } else {
-                                                            echo '<button class="btn btn-secondary btn-sm" disabled title="Awaiting DT Approval">';
-                                                            echo '<i class="fas fa-eye-slash"></i>';
-                                                            echo '</button> &nbsp;';
-                                                        }
+                                                    // View button - only show for approved and active certificates for non-admin users
+                                                    if (!$is_admin && $row['verification_status'] == 'approved' && $row['is_active'] == 1) {
+                                                        echo '<a href="view-certificate-v2.php?id=' . htmlspecialchars($row['certificate_uuid']) . '" class="btn btn-secondary btn-sm" title="View">';
+                                                        echo '<i class="fas fa-eye"></i>';
+                                                        echo '</a> &nbsp;';
+                                                    } elseif (!$is_admin) {
+                                                        echo '<button class="btn btn-secondary btn-sm" disabled title="View (Only available for approved and active certificates)">';
+                                                        echo '<i class="fas fa-eye"></i>';
+                                                        echo '</button> &nbsp;';
                                                     } else {
-                                                        // Normal view logic for other types or DT-approved type 1
-                                                        if (!$is_admin && $row['verification_status'] == 'approved' && $row['is_active'] == 1) {
-                                                            echo '<a href="view-certificate-v2.php?id=' . htmlspecialchars($row['certificate_uuid']) . '" class="btn btn-secondary btn-sm" title="View">';
-                                                            echo '<i class="fas fa-eye"></i>';
-                                                            echo '</a> &nbsp;';
-                                                        } elseif (!$is_admin) {
-                                                            echo '<button class="btn btn-secondary btn-sm" disabled title="View (Only available for approved and active certificates)">';
-                                                            echo '<i class="fas fa-eye"></i>';
-                                                            echo '</button> &nbsp;';
-                                                        } else {
-                                                            // Admin can always view
-                                                            echo '<a href="view-certificate-v2.php?id=' . htmlspecialchars($row['certificate_uuid']) . '" class="btn btn-secondary btn-sm" title="View">';
-                                                            echo '<i class="fas fa-eye"></i>';
-                                                            echo '</a> &nbsp;';
-                                                        }
+                                                        // Admin can always view
+                                                        echo '<a href="view-certificate-v2.php?id=' . htmlspecialchars($row['certificate_uuid']) . '" class="btn btn-secondary btn-sm" title="View">';
+                                                        echo '<i class="fas fa-eye"></i>';
+                                                        echo '</a> &nbsp;';
                                                     }
 
-                                                    // VERIFICATION BUTTONS
-                                                    if ($cert_type == 1) {
-                                                        // TYPE 1: Two-step verification
-
-                                                        // Step 1: Normal verification (for Institute Admin)
-                                                        if ($user_type == '1' && $row['verification_status'] == 'pending') {
-                                                            echo '<a href="verify-certificate.php?id=' . htmlspecialchars($row['id']) . '&action=verify" class="btn btn-info btn-sm" title="Institute Verification">';
-                                                            echo '<i class="fas fa-university"></i> Verify';
-                                                            echo '</a> &nbsp;';
-                                                        }
-                                                        if (
-                                                            $directorate_id == 8 && $user_type == '1' &&
-                                                            $row['verification_status'] == 'approved' &&
-                                                            $row['dt_approved'] != 1
-                                                        ) {
-                                                            echo '<a href="verify-certificate.php?id=' . htmlspecialchars($row['id']) . '&action=dt_approve" class="btn btn-primary btn-sm" title="DT Approval">';
-                                                            echo '<i class="fas fa-shield-alt"></i> DT Approve';
-                                                            echo '</a> &nbsp;';
-                                                        }
-
-                                                        // System Admin can do both steps
-                                                        if ($is_admin) {
-                                                            if ($row['verification_status'] == 'pending') {
-                                                                echo '<a href="verify-certificate.php?id=' . htmlspecialchars($row['id']) . '&action=verify" class="btn btn-info btn-sm" title="Institute Verification">';
-                                                                echo '<i class="fas fa-university"></i> Verify';
-                                                                echo '</a> &nbsp;';
-                                                            } elseif ($row['verification_status'] == 'approved' && $row['dt_approved'] != 1) {
-                                                                echo '<a href="verify-certificate.php?id=' . htmlspecialchars($row['id']) . '&action=dt_approve" class="btn btn-primary btn-sm" title="DT Approval">';
-                                                                echo '<i class="fas fa-shield-alt"></i> DT Approve';
-                                                                echo '</a> &nbsp;';
-                                                            }
-                                                        }
-
-                                                        // Status indicators
-                                                        // if ($row['verification_status'] == 'approved' && $row['dt_approved'] != 1) {
-                                                        //     echo '<span class="badge badge-info badge-sm">Awaiting DT</span> &nbsp;';
-                                                        // } elseif ($row['dt_approved'] == 1) {
-                                                        //     echo '<button class="btn btn-success btn-sm" disabled title="DT Approved">';
-                                                        //     echo '<i class="fas fa-check-circle"></i> DT ✓';
-                                                        //     echo '</button> &nbsp;';
-                                                        // }
-                                                    } else {
-                                                        // TYPE 2 & 3: Single verification
-                                                        if (($user_type == '1' || $user_type == '3' || $is_admin) && $row['verification_status'] == 'pending') {
-                                                            echo '<a href="verify-certificate.php?id=' . htmlspecialchars($row['id']) . '" class="btn btn-success btn-sm" title="Verify Certificate">';
-                                                            echo '<i class="fas fa-check-circle"></i> Verify';
-                                                            echo '</a> &nbsp;';
-                                                        } elseif ($row['verification_status'] == 'approved') {
-                                                            echo '<button class="btn btn-success btn-sm" disabled title="Already Verified">';
-                                                            echo '<i class="fas fa-check-circle"></i> Verified';
-                                                            echo '</button> &nbsp;';
-                                                        } elseif ($row['verification_status'] == 'rejected') {
-                                                            if ($user_type == '1' || $user_type == '3' || $is_admin) {
-                                                                echo '<a href="verify-certificate.php?id=' . htmlspecialchars($row['id']) . '" class="btn btn-warning btn-sm" title="Review Rejected Certificate">';
-                                                                echo '<i class="fas fa-redo"></i> Review';
-                                                                echo '</a> &nbsp;';
-                                                            }
-                                                        }
+                                                    // Verify button - ONLY FOR ADMIN USERS for pending certificates
+                                                    if ($is_admin && $row['verification_status'] == 'pending') {
+                                                        echo '<a href="verify-certificate.php?id=' . htmlspecialchars($row['id']) . '" class="btn btn-success btn-sm" title="Verify Certificate">';
+                                                        echo '<i class="fas fa-check-circle"></i> Verify';
+                                                        echo '</a> &nbsp;';
+                                                    } elseif ($is_admin && $row['verification_status'] == 'approved') {
+                                                        echo '<button class="btn btn-success btn-sm" disabled title="Already Verified">';
+                                                        echo '<i class="fas fa-check-circle"></i> Verified';
+                                                        echo '</button> &nbsp;';
+                                                    } elseif ($is_admin && $row['verification_status'] == 'rejected') {
+                                                        echo '<a href="verify-certificate.php?id=' . htmlspecialchars($row['id']) . '" class="btn btn-warning btn-sm" title="Review Rejected Certificate">';
+                                                        echo '<i class="fas fa-redo"></i> Review';
+                                                        echo '</a> &nbsp;';
                                                     }
 
-                                                    // Edit button - keep existing logic
+                                                    // Edit button - only for regular users from same directorate (completely hidden for admin)
                                                     if (!$is_admin && $row['directorate_id'] == $directorate_id) {
                                                         echo '<a href="make-certificate.php?id=' . htmlspecialchars($row['id']) . '&action=edit" class="btn btn-info btn-sm" title="Edit">';
                                                         echo '<i class="fas fa-edit"></i>';
                                                         echo '</a> &nbsp;';
                                                     } elseif (!$is_admin) {
+                                                        // Only show disabled button for non-admin users without permission
                                                         echo '<button class="btn btn-info btn-sm" disabled title="No Permission">';
                                                         echo '<i class="fas fa-edit"></i>';
                                                         echo '</button> &nbsp;';
                                                     }
 
-                                                    // Delete button - keep existing logic
+                                                    // Delete button - only for same directorate users
                                                     if (!$is_admin && $row['directorate_id'] == $directorate_id) {
                                                         echo '<a href="#" onclick="confirmDelete(\'' . htmlspecialchars($row['id']) . '\'); return false;" class="btn btn-warning btn-sm" title="Delete">';
                                                         echo '<i class="fas fa-trash"></i>';
@@ -327,6 +239,7 @@ if ($role == 'super_admin') {
                                                     }
 
                                                     echo '</td>';
+
                                                     echo "</tr>";
                                                 }
                                                 ?>

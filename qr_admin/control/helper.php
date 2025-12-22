@@ -73,3 +73,14 @@ function getInstituteName(mysqli $conn, $instituteId)
 
     return $instituteName;
 }
+
+function getVerificationBadge($status) {
+    switch ($status) {
+        case 'approved':
+            return '<span class="badge badge-success">Approved</span>';
+        case 'rejected':
+            return '<span class="badge badge-danger">Rejected</span>';
+        default:
+            return '<span class="badge badge-warning">Pending</span>';
+    }
+}

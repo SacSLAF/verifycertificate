@@ -97,6 +97,7 @@ include "control/helper.php";
                                                                 <option value="" selected disabled>Select a user role</option>
                                                                 <option value="admin">Admin</option>
                                                                 <option value="user">User</option>
+                                                                <option value="dt_admin">DT Admin</option>
                                                             </select>
                                                         </div>
                                                     </div>
