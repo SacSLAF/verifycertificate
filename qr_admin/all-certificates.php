@@ -251,7 +251,7 @@ if ($role == 'super_admin') {
                                                             echo '</a> &nbsp;';
                                                         }
                                                         if (
-                                                            $directorate_id == 8 && $user_type == '1' &&
+                                                            $directorate_id == 8 && $user_type == '1 b' &&
                                                             $row['verification_status'] == 'approved' &&
                                                             $row['dt_approved'] != 1
                                                         ) {
@@ -283,7 +283,7 @@ if ($role == 'super_admin') {
                                                         // }
                                                     } else {
                                                         // TYPE 2 & 3: Single verification
-                                                        if (($user_type == '1' || $user_type == '3' || $is_admin) && $row['verification_status'] == 'pending') {
+                                                        if (($user_type == '1' || $user_type == '3' || ($user_type == '2' && $role == 'admin') || $is_admin) && $row['verification_status'] == 'pending') {
                                                             echo '<a href="verify-certificate.php?id=' . htmlspecialchars($row['id']) . '" class="btn btn-success btn-sm" title="Verify Certificate">';
                                                             echo '<i class="fas fa-check-circle"></i> Verify';
                                                             echo '</a> &nbsp;';
